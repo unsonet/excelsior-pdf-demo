@@ -266,7 +266,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         !!id && !el.classList.contains('more');
 
       if (isCard(card)) {
-        const url = `./src/pdf/${id}.pdf`;
+        const url = `./assets/pdf/${id}.pdf`;
         if (link && !link.href) {
           link.href = url;
         }
