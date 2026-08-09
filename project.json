@@ -1,0 +1,60 @@
+{
+  "name": "excelsior-pdf-demo",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/excelsior-pdf-demo/src",
+  "tags": [],
+  "targets": {
+    "copy-lib": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "xcopy /Y \"dist\\libs\\excelsior-pdf-parser\\browser\\excelsior-pdf-parser.min.js\" \"apps\\excelsior-pdf-demo\\src\\assets\\js\\\" 2>nul || copy \"dist\\libs\\excelsior-pdf-parser\\browser\\excelsior-pdf-parser.min.js\" \"apps\\excelsior-pdf-demo\\src\\assets\\js\\excelsior-pdf-parser.min.js\""
+      }
+    },
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "dependsOn": [
+        { "target": "copy-lib", "projects": "self" },
+        "^webpack:build"
+      ],
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "web",
+        "outputPath": "dist/apps/excelsior-pdf-demo",
+        "index": "apps/excelsior-pdf-demo/src/index.html",
+        "baseHref": "./",
+        "main": "apps/excelsior-pdf-demo/src/main.ts",
+        "tsConfig": "apps/excelsior-pdf-demo/tsconfig.app.json",
+        "assets": [
+          "apps/excelsior-pdf-demo/src/favicon.ico",
+          "apps/excelsior-pdf-demo/src/assets"
+        ],
+        "styles": ["apps/excelsior-pdf-demo/src/styles.scss"],
+        "webpackConfig": "apps/excelsior-pdf-demo/webpack.config.js",
+        "isolatedConfig": true
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false
+        },
+        "development": {
+          "optimization": false,
+          "outputHashing": "none",
+          "sourceMap": true
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/webpack:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "excelsior-pdf-demo:build",
+        "hmr": true,
+        "port": 4200
+      }
+    }
+  }
+}
