@@ -276,7 +276,16 @@ window.addEventListener('DOMContentLoaded', async () => {
           firstChild.onclick = async () => {
             const response = await fetch(url);
             const fileByteArray = await response.arrayBuffer();
-            await extractFile(Array.from(new Uint8Array(fileByteArray)));
+            //await extractFile(Array.from(new Uint8Array(fileByteArray)));
+
+            var uint8Array = new Uint8Array(fileByteArray);
+            currentPdfDataArray = uint8Array; // Сохраняем данные
+            excelsiorPdfResults = null;       // Сбрасываем результаты
+
+            // Сразу просим отпарсить 1-ю страницу. 
+            // Это единственный вызов pdfjs, ошибок с буфером не будет.
+            await setPage(1);
+
             card.classList.add('selected');
             cards.forEach((c) => {
               if (c !== card) {
