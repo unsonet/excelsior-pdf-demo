@@ -18,7 +18,7 @@ module.exports = {
       baseHref: "/",
       assets: ["./src/favicon.ico", "./src/assets"],
       styles: ["./src/styles.scss"],
-      outputHashing: process.env.NODE_ENV === "production" ? "all" : "none",
+      outputHashing: "none",//process.env.NODE_ENV === "production" ? "all" : "none",
       optimization: process.env.NODE_ENV === "production",
       target:"es2020"
     })
