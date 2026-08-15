@@ -1,5 +1,16 @@
 html {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Open Sans",
+    "Helvetica Neue",
+    sans-serif;
   padding-left: 2rem;
   padding-right: 2rem;
   padding-bottom: 2rem;
@@ -13,11 +24,11 @@ td {
   white-space: pre;
 }
 
-.links{
-	justify-content: end;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.links {
+  justify-content: end;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .soc-link {
@@ -26,7 +37,6 @@ td {
   justify-self: end;
   cursor: pointer;
 }
-
 
 .gitimg {
   top: 0;
@@ -43,7 +53,6 @@ td {
   right: 0;
   border: 0;
 }
-
 
 .text {
   text-align: center;
@@ -62,14 +71,13 @@ header {
   display: grid;
   justify-content: center;
   align-items: center;
-
 }
 
 .logo {
   display: flex;
   flex-grow: 1;
   height: 4rem;
-  background: url('./assets/img/excelsior-pdf.png') center;
+  background: url("./assets/img/excelsior-pdf.png") center;
   background-size: contain;
   background-repeat: no-repeat;
 }
@@ -102,7 +110,7 @@ header {
   background: rgba(218, 215, 215, 0.64);
   opacity: 0;
   display: none;
-  transition: opacity .3s ease;
+  transition: opacity 0.3s ease;
 }
 
 .file span {
@@ -136,7 +144,7 @@ header {
   color: #fff;
   padding-top: 6px;
   opacity: 0;
-  transition: opacity .3s ease;
+  transition: opacity 0.3s ease;
 }
 
 @media (max-width: 386px) {
@@ -158,7 +166,7 @@ header {
   justify-content: center;
 }
 
-.card>div {
+.card > div {
   justify-self: center;
   height: 210px;
   width: 150px;
@@ -173,30 +181,29 @@ header {
   background-repeat: no-repeat;
   background-position: center;
   cursor: pointer;
-
 }
 
-.card[data-id="06-sales-order"]>div {
+.card[data-id="06-sales-order"] > div {
   background-image: url(./assets/img/samples/06-sales-order.webp);
 }
 
-.card[data-id="07-multi-table"]>div {
+.card[data-id="07-multi-table"] > div {
   background-image: url(./assets/img/samples/07-multi-table.webp);
 }
 
-.card[data-id="08-camelot-example"]>div {
+.card[data-id="08-camelot-example"] > div {
   background-image: url(./assets/img/samples/08-camelot-example.webp);
 }
 
-.card[data-id="09-watermark"]>div {
+.card[data-id="09-watermark"] > div {
   background-image: url(./assets/img/samples/09-watermark.webp);
 }
 
-.card[data-id="10-example"]>div {
+.card[data-id="10-example"] > div {
   background-image: url(./assets/img/samples/10-example.webp);
 }
 
-.card[data-id="13-sample-tables-3"]>div {
+.card[data-id="13-sample-tables-3"] > div {
   background-image: url(./assets/img/samples/13-sample-tables-3.webp);
 }
 
@@ -231,6 +238,7 @@ header {
 }
 
 .preview-placeholder {
+  text-align: center;
   padding: 3rem;
   background: rgba(218, 215, 215, 0.64);
   display: flex;
@@ -252,7 +260,7 @@ header {
   top: 0;
   left: 0;
   background: rgba(218, 215, 215, 0.64);
-  content: '';
+  content: "";
 }
 
 .preview-container {
@@ -265,6 +273,13 @@ header {
   position: relative;
   overflow: hidden;
   flex-basis: 50%;
+}
+
+.preview-viewer {
+  overflow: hidden;
+  flex-direction: column;
+  flex-basis: 50%;
+  display: flex;
 }
 
 .preview-render {
@@ -280,13 +295,21 @@ header {
   overflow: auto;
 }
 
+.preview-pdf {
+  margin: 0 auto;
+  display: flex;
+}
+
 .preview-render canvas {
   box-shadow: 4px 4px 5px 5px #ccc;
   border-radius: 10px;
+  align-self: baseline;
 }
 
 /* Tabs */
 .tabs {
+  overflow: auto;
+  grid-auto-flow: dense;
   grid-template-columns: auto 1fr;
   grid-template-rows: auto 1fr;
   position: relative;
@@ -319,21 +342,20 @@ header {
   background: #fff;
 }
 
-.tabs input[type=radio] {
+.tabs input[type="radio"] {
   display: none;
 }
 
-.tabs input[type=radio]:checked+label {
+.tabs input[type="radio"]:checked + label {
   background: #fff;
   color: #000;
 }
 
-.tabs input[type=radio]:checked+label+.tab {
+.tabs input[type="radio"]:checked + label + .tab {
   display: flex;
 }
 
 @media (max-width: 45em) {
-
   .tabs .tab,
   .tabs label {
     order: initial;
@@ -342,11 +364,14 @@ header {
   .tabs label {
     width: 100%;
     margin-right: 0;
-    margin-top: 0.2rem;
   }
 }
 
 /* end Tabs */
+
+.tab-json + .tab {
+  overflow: auto;
+}
 
 .html {
   height: 100%;
@@ -358,7 +383,8 @@ header {
   font-size: 10px;
 }
 
-.pagination {
+.preview-pagination {
+  justify-self: center;
   align-items: center;
   display: flex;
   padding: 1rem 2rem;
@@ -368,7 +394,7 @@ header {
   color: #000;
 }
 
-.pagination button {
+.preview-pagination button {
   align-items: center;
   cursor: pointer;
   border: 0px;
@@ -378,10 +404,9 @@ header {
   display: flex;
 }
 
-.pagination button:disabled {
+.preview-pagination button:disabled {
   opacity: 0.5;
 }
-
 
 .footer-container {
   padding-top: 2rem;
@@ -409,7 +434,6 @@ header {
 .excelsior-logo {
   background-image: url(./assets/img/brand/excelsior.webp);
 }
-
 
 /*loading bar*/
 .preview #progressbar {

@@ -437,8 +437,8 @@ window.addEventListener('DOMContentLoaded', async () => {
   }
 
   function paginationButtonsHandler(pageNum: number) {
-    const prev = document.querySelector('.pagination .prev') as HTMLElement | null;
-    const next = document.querySelector('.pagination .next') as HTMLElement | null;
+    const prev = document.querySelector('.preview-pagination .prev') as HTMLElement | null;
+    const next = document.querySelector('.preview-pagination .next') as HTMLElement | null;
 
     pageNum = pageNum || 1;
     if (pageNum <= totalPages && pageNum >= 1) {
@@ -464,8 +464,8 @@ window.addEventListener('DOMContentLoaded', async () => {
   }
 
   function initPagination() {
-    const prev = document.querySelector('.pagination .prev') as HTMLElement | null;
-    const next = document.querySelector('.pagination .next') as HTMLElement | null;
+    const prev = document.querySelector('.preview-pagination .prev') as HTMLElement | null;
+    const next = document.querySelector('.preview-pagination .next') as HTMLElement | null;
 
     if (prev) {
       prev.onclick = async () => {
