@@ -7,6 +7,7 @@
     <title>Excelsior PDF</title>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
+
     <!-- <link rel="stylesheet" href="styles.css"> -->
     <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@latest/legacy/build/pdf.min.js"></script>
 
@@ -53,6 +54,7 @@
                     <path d="M436 143c-.084-60.778-47.57-110.591-103.285-128.565C263.528-7.884 172.279-4.649 106.214 26.424 26.142 64.089.988 146.596.051 228.883c-.77 67.653 6.004 245.841 106.83 247.11 74.917.948 86.072-95.279 120.737-141.623 24.662-32.972 56.417-42.285 95.507-51.929C390.309 265.865 436.097 213.011 436 143Z"></path>
                 </svg>
             </a>
+            <button id="moreBtn" class="btn-vk link" type="button">More...</button>
         </div>
 
     </div>
@@ -79,7 +81,6 @@
         <div class="cards">
             <div class="card" data-id="06-sales-order">
                 <div>
-
                 </div>
                 <p>
                     <span>06-sales-order.pdf</span>
@@ -198,6 +199,10 @@
                     <div class="tab">
                         <div class="json"></div>
                     </div>
+
+                    <div class="tabs-toolbar">
+                        <button id="saveAsBtn" class="btn-vk primary" type="button">Save As</button>
+                    </div>
                 </div>
             </div>
 
@@ -237,6 +242,94 @@
         </div>
     </footer>
 
+
+    <div id="saveAsModal" class="simple-modal" aria-hidden="true">
+        <div class="simple-modal__backdrop"></div>
+        <div class="simple-modal__panel">
+            <div class="simple-modal__header">
+                <div style="font-weight: 600;">Export data</div>
+                <button class="close" type="button" aria-label="Close">×</button>
+            </div>
+
+            <form id="saveAsForm" class="save-as-form">
+                <label>
+                    <span>File name</span>
+                    <input id="exportFileName" type="text" value="excelsior-pdf" autocomplete="off">
+                </label>
+
+                <label>
+                    <span>Format</span>
+                    <select id="exportFormat">
+                        <option value="xlsx">Excel (.xlsx)</option>
+                        <option value="xls">Excel 97-2003 (.xls)</option>
+                        <option value="csv">CSV (.csv)</option>
+                        <option value="tsv">TSV (.tsv)</option>
+                        <option value="json">JSON (.json)</option>
+                    </select>
+                </label>
+
+                <fieldset>
+                    <legend>Export</legend>
+
+                    <label>
+                        <input type="radio" name="exportScope" value="current" checked>
+                        Current page
+                    </label>
+
+                    <label>
+                        <input type="radio" name="exportScope" value="all">
+                        All pages
+                    </label>
+                </fieldset>
+
+                <button id="exportBtn" class="btn-vk primary" type="submit">
+                    Download
+                </button>
+
+                <div id="exportStatus" class="export-status" aria-live="polite"></div>
+            </form>
+        </div>
+    </div>
+    
+
+    <div id="aboutModal" class="simple-modal" aria-hidden="true">
+        <div class="simple-modal__backdrop"></div>
+        <div class="simple-modal__panel">
+            <div class="simple-modal__header">
+                <div style="font-weight:600;">About</div>
+                <button class="close" type="button">×</button>
+            </div>
+
+            <div class="content">
+                <div id="siteLogo">
+
+                </div>
+                <p>
+                    <strong>Excelsior PDF</strong> is a JavaScript/TypeScript library for extracting structured table data from PDF documents.
+
+                    It can detect tables with or without borders, recognize headers, handle merged cells and watermarked documents, and extract the results into structured data.
+
+                    The library works in both <b>browser and Node.js</b> environments and does not rely on OCR or neural networks, making it lightweight and easy to integrate into your own applications.
+                </p>
+
+                <p>Excelsior PDF is open source and released under the <b>MIT License</b>.</p>
+
+                <p>Made by <b>Unsonet</b>.</p>
+
+                <div class="socials">
+                    <a href="https://github.com/unsonet" target="_blank" class="btn-vk link">GitHub</a>
+                    <a href="https://www.patreon.com/Unsonet" target="_blank" class="btn-vk link">Patreon</a>
+                    <a href="https://x.com/unsonet_team" target="_blank" class="btn-vk link">X</a>
+                    <a href="https://www.linkedin.com/company/unsonet" target="_blank" class="btn-vk link">LinkedIn</a>
+                    <a href="https://www.youtube.com/@unsonet" target="_blank" class="btn-vk link">YouTube</a>
+                    <a href="https://t.me/unsonet_team" target="_blank" class="btn-vk link">Telegram</a>
+                    <a href="https://instagram.com/unsonet_team/" target="_blank" class="btn-vk link">Instagram</a>
+                    <a href="https://www.facebook.com/unsonet.team/" target="_blank" class="btn-vk link">Facebook</a>
+                </div>
+                <p class="shadow-text">Email: unsonet.team@gmail.com</p>
+            </div>
+        </div>
+    </div>
 
 </body>
 

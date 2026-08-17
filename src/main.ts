@@ -1,3 +1,7 @@
+//const simpleModal = (globalThis as any)['simpleModal'];
+import * as simpleModal from '@unsonet/simple-modal';
+//import { ExportService } from '@unsonet/excelsior-data-converter';
+
 // import { default as createExcelsiorPdf } from '@unsonet/excelsior-pdf-parser'; //!BUG: the spread operator is not working
 // ==================== MAIN CODE ====================
 window.addEventListener('DOMContentLoaded', async () => {
@@ -22,6 +26,15 @@ window.addEventListener('DOMContentLoaded', async () => {
     pdfjs: pdfjsLib,
     workerSrc: pdfjsWorkerSrc,
   });
+
+const excelsiorDataConverter = (globalThis as any).ExcelsiorDataConverter;
+
+console.log(
+  '[ExcelsiorDataConverter bundle]',
+  excelsiorDataConverter
+);
+
+const exportService = new excelsiorDataConverter.ExportService();
 
   // Holds the extraction results – define a proper interface if available
   let excelsiorPdfResults: any; // ideally replace `any` with a specific type
@@ -254,6 +267,74 @@ window.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
+  function initSaveAsForm() {
+  const form = document.getElementById('saveAsForm') as HTMLFormElement | null;
+  if (!form) return;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    if (!excelsiorPdfResults?.extractorResults?.pageTables?.length) {
+      showExportStatus('No data to export. Load and parse a PDF first.', 'error');
+      return;
+    }
+
+    const fileName = (document.getElementById('exportFileName') as HTMLInputElement)?.value.trim() || 'excelsior-pdf';
+    const format = (document.getElementById('exportFormat') as HTMLSelectElement)?.value;
+    const scope = (document.querySelector('input[name="exportScope"]:checked') as HTMLInputElement)?.value;
+
+    try {
+      showExportStatus('Preparing data...', 'info');
+
+      const dataToExport: any[] = [];
+      const pageTables = excelsiorPdfResults.extractorResults.pageTables;
+
+      const collectFromPage = (pageTable: any) => {
+        if (!pageTable?.tableGroups?.length) return;
+        pageTable.tableGroups.forEach((group: any) => {
+          const tableJson = group?.tableData?.table?.json;
+          if (Array.isArray(tableJson)) {
+            dataToExport.push(...tableJson);
+          } else if (tableJson && typeof tableJson === 'object') {
+            dataToExport.push(tableJson);
+          }
+        });
+      };
+
+      if (scope === 'current') {
+        collectFromPage(pageTables[currentPage - 1]);
+      } else {
+        pageTables.forEach(collectFromPage);
+      }
+
+      if (dataToExport.length === 0) {
+        showExportStatus('No table data found for the selected scope.', 'error');
+        return;
+      }
+
+      showExportStatus('Downloading...', 'info');
+      await exportService.download(dataToExport, fileName, format);
+
+      showExportStatus('Done!', 'success');
+      setTimeout(() => {
+        simpleModal.closeModal('saveAsModal');
+        showExportStatus('', '');
+      }, 1000);
+    } catch (err: any) {
+      console.error('Export error:', err);
+      showExportStatus(`Export failed: ${err?.message || String(err)}`, 'error');
+    }
+  });
+}
+
+function showExportStatus(message: string, type: 'info' | 'error' | 'success' | '' = '') {
+  const el = document.getElementById('exportStatus');
+  if (!el) return;
+  el.textContent = message;
+  el.className = 'export-status';
+  if (type) el.classList.add(type);
+}
+
   // ========== CARD INITIALIZATION ==========
   function initCards() {
     const cardsContainer = document.querySelector('.cards');
@@ -484,8 +565,19 @@ window.addEventListener('DOMContentLoaded', async () => {
     paginationButtonsHandler(currentPage);
   }
 
+  //modals
+  document.querySelector('#moreBtn').addEventListener("click", () => {
+    simpleModal.openModal("aboutModal");
+  });
+
+  document.querySelector('#saveAsBtn').addEventListener("click", () => {
+    simpleModal.openModal("saveAsModal");
+  });
+
   // ========== INITIALIZATION ==========
   initCards();
   setJSONTree(currentPage); // fixed missing argument
   initPagination();
+  initSaveAsForm();
+
 });

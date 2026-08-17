@@ -14,8 +14,7 @@
     "build": {
       "executor": "@nx/webpack:webpack",
       "dependsOn": [
-        { "target": "copy-lib", "projects": "self" },
-        "^webpack:build"
+        { "target": "copy-lib", "projects": "self" }
       ],
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
