@@ -1,0 +1,163 @@
+[
+  {
+    "id": "12s0324",
+    "url": [
+      "./assets/pdf/12s0324.pdf",
+      "https://raw.githubusercontent.com/unsonet/excelsior-pdf-demo/main/src/assets/pdf/12s0324.pdf"
+    ]
+  },
+  {
+    "id": "agstat",
+    "url": [
+      "./assets/pdf/agstat.pdf",
+      "https://raw.githubusercontent.com/unsonet/excelsior-pdf-demo/main/src/assets/pdf/agstat.pdf"
+    ]
+  },
+  {
+    "id": "background_lines_1",
+    "url": [
+      "./assets/pdf/background_lines_1.pdf",
+      "https://raw.githubusercontent.com/unsonet/excelsior-pdf-demo/main/src/assets/pdf/background_lines_1.pdf"
+    ]
+  },
+  {
+    "id": "background_lines_2",
+    "url": [
+      "./assets/pdf/background_lines_2.pdf",
+      "https://raw.githubusercontent.com/unsonet/excelsior-pdf-demo/main/src/assets/pdf/background_lines_2.pdf"
+    ]
+  },
+  {
+    "id": "column_span_1",
+    "url": [
+      "./assets/pdf/column_span_1.pdf",
+      "https://raw.githubusercontent.com/unsonet/excelsior-pdf-demo/main/src/assets/pdf/column_span_1.pdf"
+    ]
+  },
+  {
+    "id": "column_span_2",
+    "url": [
+      "./assets/pdf/column_span_2.pdf",
+      "https://raw.githubusercontent.com/unsonet/excelsior-pdf-demo/main/src/assets/pdf/column_span_2.pdf"
+    ]
+  },
+  {
+    "id": "district_health",
+    "url": [
+      "./assets/pdf/district_health.pdf",
+      "https://raw.githubusercontent.com/unsonet/excelsior-pdf-demo/main/src/assets/pdf/district_health.pdf"
+    ]
+  },
+  {
+    "id": "fpdf_example",
+    "url": [
+      "./assets/pdf/fpdf_example.pdf",
+      "https://raw.githubusercontent.com/unsonet/excelsior-pdf-demo/main/src/assets/pdf/fpdf_example.pdf"
+    ]
+  },
+  {
+    "id": "graphic_cyrl",
+    "url": [
+      "./assets/pdf/graphic_cyrl.pdf",
+      "https://raw.githubusercontent.com/unsonet/excelsior-pdf-demo/main/src/assets/pdf/graphic_cyrl.pdf"
+    ]
+  },
+  {
+    "id": "m27",
+    "url": [
+      "./assets/pdf/m27.pdf",
+      "https://raw.githubusercontent.com/unsonet/excelsior-pdf-demo/main/src/assets/pdf/m27.pdf"
+    ]
+  },
+  {
+    "id": "missing_values",
+    "url": [
+      "./assets/pdf/missing_values.pdf",
+      "https://raw.githubusercontent.com/unsonet/excelsior-pdf-demo/main/src/assets/pdf/missing_values.pdf"
+    ]
+  },
+  {
+    "id": "population_growth",
+    "url": [
+      "./assets/pdf/population_growth.pdf",
+      "https://raw.githubusercontent.com/unsonet/excelsior-pdf-demo/main/src/assets/pdf/population_growth.pdf"
+    ]
+  },
+  {
+    "id": "rotated",
+    "url": [
+      "./assets/pdf/rotated.pdf",
+      "https://raw.githubusercontent.com/unsonet/excelsior-pdf-demo/main/src/assets/pdf/rotated.pdf"
+    ]
+  },
+  {
+    "id": "row_span",
+    "url": [
+      "./assets/pdf/row_span.pdf",
+      "https://raw.githubusercontent.com/unsonet/excelsior-pdf-demo/main/src/assets/pdf/row_span.pdf"
+    ]
+  },
+  {
+    "id": "sales_invoice",
+    "url": [
+      "./assets/pdf/sales_invoice.pdf",
+      "https://raw.githubusercontent.com/unsonet/excelsior-pdf-demo/main/src/assets/pdf/sales_invoice.pdf"
+    ]
+  },
+  {
+    "id": "sales_order",
+    "url": [
+      "./assets/pdf/sales_order.pdf",
+      "https://raw.githubusercontent.com/unsonet/excelsior-pdf-demo/main/src/assets/pdf/sales_order.pdf"
+    ]
+  },
+  {
+    "id": "superscript",
+    "url": [
+      "./assets/pdf/superscript.pdf",
+      "https://raw.githubusercontent.com/unsonet/excelsior-pdf-demo/main/src/assets/pdf/superscript.pdf"
+    ]
+  },
+  {
+    "id": "table",
+    "url": [
+      "./assets/pdf/table.pdf",
+      "https://raw.githubusercontent.com/unsonet/excelsior-pdf-demo/main/src/assets/pdf/table.pdf"
+    ]
+  },
+  {
+    "id": "three_tables_1",
+    "url": [
+      "./assets/pdf/three_tables_1.pdf",
+      "https://raw.githubusercontent.com/unsonet/excelsior-pdf-demo/main/src/assets/pdf/three_tables_1.pdf"
+    ]
+  },
+  {
+    "id": "three_tables_2",
+    "url": [
+      "./assets/pdf/three_tables_2.pdf",
+      "https://raw.githubusercontent.com/unsonet/excelsior-pdf-demo/main/src/assets/pdf/three_tables_2.pdf"
+    ]
+  },
+  {
+    "id": "twotables_1",
+    "url": [
+      "./assets/pdf/twotables_1.pdf",
+      "https://raw.githubusercontent.com/unsonet/excelsior-pdf-demo/main/src/assets/pdf/twotables_1.pdf"
+    ]
+  },
+  {
+    "id": "twotables_2",
+    "url": [
+      "./assets/pdf/twotables_2.pdf",
+      "https://raw.githubusercontent.com/unsonet/excelsior-pdf-demo/main/src/assets/pdf/twotables_2.pdf"
+    ]
+  },
+  {
+    "id": "watermark",
+    "url": [
+      "./assets/pdf/watermark.pdf",
+      "https://raw.githubusercontent.com/unsonet/excelsior-pdf-demo/main/src/assets/pdf/watermark.pdf"
+    ]
+  }
+]

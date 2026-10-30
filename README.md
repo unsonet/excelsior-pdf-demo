@@ -1,6 +1,6 @@
 # @unsonet/excelsior-pdf-demo
 
-Interactive demo application for the **`@unsonet/excelsior-pdf-parser`** library.
+Interactive demo application for the **[`@unsonet/excelsior-pdf-parser`](https://github.com/unsonet/excelsior-pdf-parser)** library.
 
 Upload PDF documents, visually browse their pages, and extract tabular data in **HTML** and **JSON** formats — all in the browser.
 
@@ -10,7 +10,7 @@ Upload PDF documents, visually browse their pages, and extract tabular data in *
 
 - 📄 **Drag & Drop** PDF file upload
 - 🖼️ **Page rendering** via PDF.js
-- 📊 **Table extraction** powered by `@unsonet/excelsior-pdf-parser`
+- 📊 **Table extraction** powered by [`@unsonet/excelsior-pdf-parser`](https://github.com/unsonet/excelsior-pdf-parser)
 - 🔄 **Format toggle** — view results as HTML or JSON
 - 📑 **Pagination** — navigate documents page by page
 - 🗂️ **Built-in samples** — test PDFs for quick start
@@ -100,7 +100,7 @@ apps/excelsior-pdf-demo/
 ### Runtime
 - [`pdfjs-dist`](https://github.com/mozilla/pdf.js) — PDF rendering in the browser
 - [`jsnview`](https://github.com/yesmeck/jsnview) — JSON tree visualization
-- `@unsonet/excelsior-pdf-parser` — PDF table extraction engine *(from monorepo or npm)*
+- [`@unsonet/excelsior-pdf-parser`](https://github.com/unsonet/excelsior-pdf-parser) — PDF table extraction engine *(from monorepo or npm)*
 
 ### Development
 - `@nx/webpack` — Nx Webpack plugin
@@ -117,4 +117,4 @@ MIT © [Unsonet](https://github.com/unsonet)
 
 ## Related Projects
 
-- [`@unsonet/excelsior-pdf-parser`](https://github.com/unsonet/excelsior-pdf) — Core library for PDF table extraction
+- [`@unsonet/excelsior-pdf-parser`](https://github.com/unsonet/excelsior-pdf-parser) — Core library for PDF table extraction

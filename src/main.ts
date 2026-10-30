@@ -1,8 +1,121 @@
+
 //const simpleModal = (globalThis as any)['simpleModal'];
 import * as simpleModal from '@unsonet/simple-modal';
+import * as simpleSlider from '@unsonet/simple-slider';
 //import { ExportService } from '@unsonet/excelsior-data-converter';
 
 // import { default as createExcelsiorPdf } from '@unsonet/excelsior-pdf-parser'; //!BUG: the spread operator is not working
+
+/*samples*/
+const pdfObjectUrls = new Set<string>();
+
+window.addEventListener('beforeunload', () => {
+  for (const url of pdfObjectUrls) {
+    URL.revokeObjectURL(url);
+  }
+
+  pdfObjectUrls.clear();
+});
+type UrlValue = string | string[];
+
+type PdfSample = {
+  id: string;
+  name?: string;
+  url: UrlValue;
+  image?: UrlValue;
+};
+
+function toUrls(value: UrlValue | undefined): string[] {
+  if (!value) {
+    return [];
+  }
+
+  return (Array.isArray(value) ? value : [value])
+    .filter((url) => typeof url === 'string' && url.trim().length > 0);
+}
+
+async function fetchPdfBytes(
+  source: UrlValue
+): Promise<Uint8Array<ArrayBuffer>> {
+  const errors: string[] = [];
+
+  for (const url of toUrls(source)) {
+    try {
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        errors.push(`${url}: HTTP ${response.status}`);
+        continue;
+      }
+
+      const bytes = new Uint8Array(
+        await response.arrayBuffer()
+      );
+
+      // Не считаем успешным результатом HTML-страницу
+      // или другой файл, случайно вернувшийся со статусом 200.
+      const header = new TextDecoder().decode(
+        bytes.subarray(0, Math.min(bytes.length, 1024))
+      );
+
+      if (!header.includes('%PDF-')) {
+        errors.push(`${url}: response is not a PDF`);
+        continue;
+      }
+
+      return bytes;
+    } catch (error) {
+      errors.push(`${url}: ${String(error)}`);
+    }
+  }
+
+  throw new Error(
+    `Could not load PDF from any configured URL. ${errors.join(' | ')}`
+  );
+}
+
+const sampleRepositoryAssets =
+  'https://raw.githubusercontent.com/unsonet/excelsior-pdf-demo/main/src/assets';
+
+function getSampleImageUrls(sample: PdfSample): string[] {
+  if (sample.image) {
+    return toUrls(sample.image);
+  }
+
+  return [
+    `./assets/img/samples/${sample.id}.webp`,
+    `${sampleRepositoryAssets}/img/samples/${sample.id}.webp`
+  ];
+}
+
+function setThumbnail(
+  element: HTMLElement,
+  urls: string[]
+): void {
+  let index = 0;
+
+  const tryNext = () => {
+    if (index >= urls.length) {
+      element.style.backgroundImage = 'none';
+      return;
+    }
+
+    const url = urls[index++];
+    const image = new Image();
+
+    image.onload = () => {
+      element.style.backgroundImage =
+        `url(${JSON.stringify(url)})`;
+    };
+
+    image.onerror = tryNext;
+    image.src = url;
+  };
+
+  tryNext();
+}
+/*end samples*/
+
 // ==================== MAIN CODE ====================
 window.addEventListener('DOMContentLoaded', async () => {
   var cache = {};
@@ -27,14 +140,14 @@ window.addEventListener('DOMContentLoaded', async () => {
     workerSrc: pdfjsWorkerSrc,
   });
 
-const excelsiorDataConverter = (globalThis as any).ExcelsiorDataConverter;
+  const excelsiorDataConverter = (globalThis as any).ExcelsiorDataConverter;
 
-console.log(
-  '[ExcelsiorDataConverter bundle]',
-  excelsiorDataConverter
-);
+  console.log(
+    '[ExcelsiorDataConverter bundle]',
+    excelsiorDataConverter
+  );
 
-const exportService = new excelsiorDataConverter.ExportService();
+  const exportService = new excelsiorDataConverter.ExportService();
 
   // Holds the extraction results – define a proper interface if available
   let excelsiorPdfResults: any; // ideally replace `any` with a specific type
@@ -268,115 +381,165 @@ const exportService = new excelsiorDataConverter.ExportService();
   }
 
   function initSaveAsForm() {
-  const form = document.getElementById('saveAsForm') as HTMLFormElement | null;
-  if (!form) return;
+    const form = document.getElementById('saveAsForm') as HTMLFormElement | null;
+    if (!form) return;
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
 
-    if (!excelsiorPdfResults?.extractorResults?.pageTables?.length) {
-      showExportStatus('No data to export. Load and parse a PDF first.', 'error');
-      return;
-    }
-
-    const fileName = (document.getElementById('exportFileName') as HTMLInputElement)?.value.trim() || 'excelsior-pdf';
-    const format = (document.getElementById('exportFormat') as HTMLSelectElement)?.value;
-    const scope = (document.querySelector('input[name="exportScope"]:checked') as HTMLInputElement)?.value;
-
-    try {
-      showExportStatus('Preparing data...', 'info');
-
-      const dataToExport: any[] = [];
-      const pageTables = excelsiorPdfResults.extractorResults.pageTables;
-
-      const collectFromPage = (pageTable: any) => {
-        if (!pageTable?.tableGroups?.length) return;
-        pageTable.tableGroups.forEach((group: any) => {
-          const tableJson = group?.tableData?.table?.json;
-          if (Array.isArray(tableJson)) {
-            dataToExport.push(...tableJson);
-          } else if (tableJson && typeof tableJson === 'object') {
-            dataToExport.push(tableJson);
-          }
-        });
-      };
-
-      if (scope === 'current') {
-        collectFromPage(pageTables[currentPage - 1]);
-      } else {
-        pageTables.forEach(collectFromPage);
-      }
-
-      if (dataToExport.length === 0) {
-        showExportStatus('No table data found for the selected scope.', 'error');
+      if (!excelsiorPdfResults?.extractorResults?.pageTables?.length) {
+        showExportStatus('No data to export. Load and parse a PDF first.', 'error');
         return;
       }
 
-      showExportStatus('Downloading...', 'info');
-      await exportService.download(dataToExport, fileName, format);
+      const fileName = (document.getElementById('exportFileName') as HTMLInputElement)?.value.trim() || 'excelsior-pdf';
+      const format = (document.getElementById('exportFormat') as HTMLSelectElement)?.value;
+      const scope = (document.querySelector('input[name="exportScope"]:checked') as HTMLInputElement)?.value;
 
-      showExportStatus('Done!', 'success');
-      setTimeout(() => {
-        simpleModal.closeModal('saveAsModal');
-        showExportStatus('', '');
-      }, 1000);
-    } catch (err: any) {
-      console.error('Export error:', err);
-      showExportStatus(`Export failed: ${err?.message || String(err)}`, 'error');
-    }
-  });
-}
+      try {
+        showExportStatus('Preparing data...', 'info');
 
-function showExportStatus(message: string, type: 'info' | 'error' | 'success' | '' = '') {
-  const el = document.getElementById('exportStatus');
-  if (!el) return;
-  el.textContent = message;
-  el.className = 'export-status';
-  if (type) el.classList.add(type);
-}
+        const dataToExport: any[] = [];
+        const pageTables = excelsiorPdfResults.extractorResults.pageTables;
 
-  // ========== CARD INITIALIZATION ==========
-  function initCards() {
-    const cardsContainer = document.querySelector('.cards');
-    if (!cardsContainer) return;
-    const cards = Array.from(cardsContainer.querySelectorAll('.card'));
-    cards.forEach((card) => {
-      const id = (card as HTMLElement).dataset.id;
-      const link = card.querySelector('a') as HTMLAnchorElement | null;
-      const isCard = (el: Element): el is HTMLElement =>
-        !!id && !el.classList.contains('more');
+        const collectFromPage = (pageTable: any) => {
+          if (!pageTable?.tableGroups?.length) return;
+          pageTable.tableGroups.forEach((group: any) => {
+            const tableJson = group?.tableData?.table?.json;
+            if (Array.isArray(tableJson)) {
+              dataToExport.push(...tableJson);
+            } else if (tableJson && typeof tableJson === 'object') {
+              dataToExport.push(tableJson);
+            }
+          });
+        };
 
-      if (isCard(card)) {
-        const url = `./assets/pdf/${id}.pdf`;
-        if (link && !link.href) {
-          link.href = url;
+        if (scope === 'current') {
+          collectFromPage(pageTables[currentPage - 1]);
+        } else {
+          pageTables.forEach(collectFromPage);
         }
-        // Attach click handler to the first child element
-        const firstChild = card.firstElementChild as HTMLElement | null;
-        if (firstChild) {
-          firstChild.onclick = async () => {
-            const response = await fetch(url);
-            const fileByteArray = await response.arrayBuffer();
-            //await extractFile(Array.from(new Uint8Array(fileByteArray)));
 
-            var uint8Array = new Uint8Array(fileByteArray);
-            currentPdfDataArray = uint8Array; // Сохраняем данные
-            excelsiorPdfResults = null;       // Сбрасываем результаты
-
-            // Сразу просим отпарсить 1-ю страницу. 
-            // Это единственный вызов pdfjs, ошибок с буфером не будет.
-            await setPage(1);
-
-            card.classList.add('selected');
-            cards.forEach((c) => {
-              if (c !== card) {
-                c.classList.remove('selected');
-              }
-            });
-          };
+        if (dataToExport.length === 0) {
+          showExportStatus('No table data found for the selected scope.', 'error');
+          return;
         }
+
+        showExportStatus('Downloading...', 'info');
+        await exportService.download(dataToExport, fileName, format);
+
+        showExportStatus('Done!', 'success');
+        setTimeout(() => {
+          simpleModal.closeModal('saveAsModal');
+          showExportStatus('', '');
+        }, 1000);
+      } catch (err: any) {
+        console.error('Export error:', err);
+        showExportStatus(`Export failed: ${err?.message || String(err)}`, 'error');
       }
     });
+  }
+
+  function showExportStatus(message: string, type: 'info' | 'error' | 'success' | '' = '') {
+    const el = document.getElementById('exportStatus');
+    if (!el) return;
+    el.textContent = message;
+    el.className = 'export-status';
+    if (type) el.classList.add(type);
+  }
+
+  // ========== CARD INITIALIZATION ==========
+  async function initCards(): Promise<void> {
+    const cardsContainer = document.querySelector('.cards') as HTMLElement | null;
+    const template = document.querySelector('#sample-card-template') as HTMLTemplateElement | null;
+
+    if (!cardsContainer || !template) {
+      return;
+    }
+
+    const response = await fetch('./assets/data/samples.json');
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed to load samples.json: HTTP ${response.status}`
+      );
+    }
+
+    const samples = await response.json() as PdfSample[];
+
+    cardsContainer.replaceChildren();
+
+    for (const sample of samples) {
+      const fragment = template.content.cloneNode(true) as DocumentFragment;
+
+      const card = fragment.querySelector('.card') as HTMLElement;
+      const thumbnail = card.querySelector(':scope > div') as HTMLElement;
+      const label = card.querySelector('p span') as HTMLElement;
+      const link = card.querySelector('p a') as HTMLAnchorElement;
+
+      card.dataset.id = sample.id;
+      label.textContent = sample.name || `${sample.id}.pdf`;
+
+      const urls = toUrls(sample.url);
+
+      link.href = urls[0] || '#';
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+
+      // Открытие PDF по значку ссылки тоже поддерживает fallback.
+      link.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        // Открываем вкладку непосредственно из пользовательского
+        // действия, чтобы не столкнуться с блокировкой popup.
+        const popup = window.open('about:blank', '_blank');
+
+        if (!popup) {
+          console.error('Unable to open PDF: popup was blocked.');
+          return;
+        }
+
+        void fetchPdfBytes(sample.url)
+          .then((bytes) => {
+            const blobUrl = URL.createObjectURL(
+              new Blob([bytes], { type: 'application/pdf' })
+            );
+
+            pdfObjectUrls.add(blobUrl);
+            popup.location.href = blobUrl;
+          })
+          .catch((error) => {
+            popup.close();
+            console.error(
+              `Failed to open ${sample.id}.pdf:`,
+              error
+            );
+          });
+      });
+
+      thumbnail.addEventListener('click', () => {
+        void (async () => {
+          try {
+            currentPdfDataArray = await fetchPdfBytes(sample.url);
+            excelsiorPdfResults = null;
+
+            await setPage(1);
+
+            cardsContainer
+              .querySelectorAll<HTMLElement>('.card')
+              .forEach((item) => {
+                item.classList.toggle('selected', item === card);
+              });
+          } catch (error) {
+            onError(error);
+          }
+        })();
+      });
+
+      setThumbnail(thumbnail, getSampleImageUrls(sample));
+
+      cardsContainer.appendChild(fragment);
+    }
   }
 
   // ========== PAGE RENDERING ==========
@@ -574,9 +737,29 @@ function showExportStatus(message: string, type: 'info' | 'error' | 'success' | 
     simpleModal.openModal("saveAsModal");
   });
 
-  // ========== INITIALIZATION ==========
-  initCards();
-  setJSONTree(currentPage); // fixed missing argument
+  /*slider*/
+
+  try {
+    await initCards();
+
+    simpleSlider.createSlider('.cards', {
+      prevButton: '#cards-prev',
+      nextButton: '#cards-next',
+      mode: 'infinite',
+      itemsPerView: 'auto',
+      step: 1,
+      randomize: true,
+      hideControlsWhenNotNeeded: true,
+      draggable: true,
+      freeDrag: true,
+      animationDuration: 300,
+      animationEasing: 'ease',
+    });
+  } catch (error) {
+    console.error('Failed to initialize PDF samples:', error);
+  }
+
+  setJSONTree(currentPage);
   initPagination();
   initSaveAsForm();
 

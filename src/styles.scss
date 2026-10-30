@@ -30,7 +30,7 @@ html {
 }
 
 td {
-  white-space: pre;
+  // white-space: pre;
 }
 
 button{
@@ -195,6 +195,7 @@ header {
 
 /*Flex Cards*/
 .cards {
+  padding: 1rem;
   gap: 60px;
   width: 100%;
   margin: 25px auto;
@@ -219,31 +220,6 @@ header {
   background-position: center;
   cursor: pointer;
 }
-
-.card[data-id="06-sales-order"] > div {
-  background-image: url(./assets/img/samples/06-sales-order.webp);
-}
-
-.card[data-id="07-multi-table"] > div {
-  background-image: url(./assets/img/samples/07-multi-table.webp);
-}
-
-.card[data-id="08-camelot-example"] > div {
-  background-image: url(./assets/img/samples/08-camelot-example.webp);
-}
-
-.card[data-id="09-watermark"] > div {
-  background-image: url(./assets/img/samples/09-watermark.webp);
-}
-
-.card[data-id="10-example"] > div {
-  background-image: url(./assets/img/samples/10-example.webp);
-}
-
-.card[data-id="13-sample-tables-3"] > div {
-  background-image: url(./assets/img/samples/13-sample-tables-3.webp);
-}
-
 .card p {
   display: flex;
   align-items: center;
@@ -262,6 +238,8 @@ header {
   justify-items: center;
   gap: 5px;
   font-weight: bold;
+  justify-self: center;
+  padding-bottom: 3rem;
 }
 
 .card.selected div {
@@ -619,3 +597,54 @@ header {
 .export-status.success { color: #2e7d32; }
 .export-status.error   { color: #c62828; }
 /*end export*/
+
+.powered-by{
+  display: flex;
+  flex-direction: column;
+ &-logo{
+   background-image: url("./assets/img/excelsior-data.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 170px;
+  height: 70px;
+  margin: 0 auto;
+ }
+ &-description{
+  color: gray;
+  font-size: 12px;
+  align-self: center;
+  justify-self: center;
+  a{
+    font-size: 12px;
+    color: #2e7d32;
+
+  }
+ }
+}
+
+.cards-slider{
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  .cards{
+    overflow: hidden;
+  }
+  .simple-slider__track{
+    display: flex;
+    flex-direction: row;
+    column-gap: 40px!important;
+  }
+  .arrow{
+    cursor: pointer;
+    align-self: center;
+    position: absolute;
+    z-index: 1;
+    &.left{
+      left: 0;
+    }
+    &.right{
+      right: 0;
+    }
+  }
+}

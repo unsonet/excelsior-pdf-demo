@@ -8,15 +8,20 @@
     "copy-lib": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "xcopy /Y \"dist\\libs\\excelsior-pdf-parser\\browser\\excelsior-pdf-parser.min.js\" \"apps\\excelsior-pdf-demo\\src\\assets\\js\\\" 2>nul || copy \"dist\\libs\\excelsior-pdf-parser\\browser\\excelsior-pdf-parser.min.js\" \"apps\\excelsior-pdf-demo\\src\\assets\\js\\excelsior-pdf-parser.min.js\""
+        "command": "copy /Y \"dist\\libs\\excelsior-pdf-parser\\browser\\excelsior-pdf-parser.min.js\" \"apps\\excelsior-pdf-demo\\src\\assets\\js\\excelsior-pdf-parser.min.js\" >nul && copy /Y \"dist\\libs\\excelsior-pdf-parser\\browser\\excelsior-pdf-parser.min.js.map\" \"apps\\excelsior-pdf-demo\\src\\assets\\js\\excelsior-pdf-parser.min.js.map\" >nul"
       }
     },
     "build": {
       "executor": "@nx/webpack:webpack",
       "dependsOn": [
-        { "target": "copy-lib", "projects": "self" }
+        {
+          "target": "copy-lib",
+          "projects": "self"
+        }
       ],
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "defaultConfiguration": "production",
       "options": {
         "target": "web",
@@ -29,7 +34,9 @@
           "apps/excelsior-pdf-demo/src/favicon.ico",
           "apps/excelsior-pdf-demo/src/assets"
         ],
-        "styles": ["apps/excelsior-pdf-demo/src/styles.scss"],
+        "styles": [
+          "apps/excelsior-pdf-demo/src/styles.scss"
+        ],
         "webpackConfig": "apps/excelsior-pdf-demo/webpack.config.js",
         "isolatedConfig": true
       },
