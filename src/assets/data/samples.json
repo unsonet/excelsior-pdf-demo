@@ -28,6 +28,13 @@
     ]
   },
   {
+    "id": "budget",
+    "url": [
+      "./assets/pdf/budget.pdf",
+      "https://raw.githubusercontent.com/unsonet/excelsior-pdf-demo/main/src/assets/pdf/budget.pdf"
+    ]
+  },
+  {
     "id": "column_span_1",
     "url": [
       "./assets/pdf/column_span_1.pdf",
